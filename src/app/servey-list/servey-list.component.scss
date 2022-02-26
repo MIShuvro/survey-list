@@ -1,0 +1,12 @@
+.servey-list {
+    padding: 2rem;
+    table {
+        width: 100%;
+    }
+    .table-body {
+        background: #fff;
+        .mat-cell {
+            color: rgb(44, 44, 44);
+        }
+    }
+}

@@ -10,12 +10,18 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResultComponent } from './result/result.component';
+import { TakeServeyComponent } from './take-servey/take-servey.component';
+import { ServeyListComponent } from './servey-list/servey-list.component';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ResultComponent,
+    TakeServeyComponent,
+    ServeyListComponent
   ],
   imports: [
     BrowserModule,
