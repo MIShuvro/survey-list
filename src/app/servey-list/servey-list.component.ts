@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder} from "@angular/forms";
 
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 type question = {
   title: string,
   type: string,
@@ -60,19 +60,73 @@ const SURVETS_LIST: PeriodicElement[] = [
 })
 export class ServeyListComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'Created Date', 'Survey Title', 'Number of Questions', 'Time', 'Action'];
+  displayedColumns: string[] = ['Created Date', 'Survey Title', 'Number of Questions', 'Time', 'Action'];
   dataSource = SURVETS_LIST;
 
-  constructor(private FormBuilder:FormBuilder){}
-  filterForm = this.FormBuilder.group({
-    title: [''],
-    created: '',
-    createdSort: 'asc',
-    numberQuestionsSort: "asc",
-    timeSort: 'asc'
-  })
-  
+  order = [
+    {
+      name: 'Latest',
+      value: 'latest'
+    },
+    {
+      name: 'Oldest',
+      value: 'oldest'
+    }
+  ]
+  question = [
+    {
+      name: 'Max Question',
+      value: 'max_question'
+    },
+    {
+      name: 'Min Question',
+      value: 'min_question'
+    }
+  ]
+
+  time = [
+    {
+      name: 'Max Time',
+      value: 'max_time'
+    },
+    {
+      name: 'Min Time',
+      value: 'min_time'
+    }
+  ]
+
+  constructor(private fb: FormBuilder) { }
+  filter: FormGroup
+  selectedDate = {
+    start: null,
+    end: null
+  }
   ngOnInit(): void {
+
+    this.filter = this.fb.group({
+      title: [null],
+      created: [null],
+      createdSort: [null],
+      numberQuestionsSort: [null],
+      timeSort: [null]
+    })
   }
 
+  onStartDateChange(value: any) {
+    this.selectedDate.start = value._d
+   
+  }
+  onEndDateChange(value: any) {
+    this.selectedDate.end = value._d
+  }
+
+  submit() {
+    console.log(this.selectedDate);
+    console.log(this.filter.value);
+  }
+  reset(){
+    this.selectedDate.start = null
+    this.selectedDate.end = null
+    this.filter.reset()
+  }
 }

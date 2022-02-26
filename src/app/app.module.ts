@@ -13,9 +13,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResultComponent } from './result/result.component';
 import { TakeServeyComponent } from './take-servey/take-servey.component';
 import { ServeyListComponent } from './servey-list/servey-list.component';
-
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { Moment } from 'moment'
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,9 +34,12 @@ import { ServeyListComponent } from './servey-list/servey-list.component';
     MatGridListModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

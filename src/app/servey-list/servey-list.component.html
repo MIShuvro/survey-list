@@ -1,59 +1,96 @@
 <div class="servey-list">
-    <h2>SURVEY LIST</h2>
-    
-    <form class="example-form">
-      <mat-grid-list cols="2" rowHeight="50px">
-        <mat-grid-tile>
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label>Title</mat-label>
-            <input matInput placeholder="Serach Title">
-          </mat-form-field>
+  <h2>SURVEY LIST</h2>
+
+  <div class="filter-content">
+    <form [formGroup]="filter" (ngSubmit)="submit()" style="display: flex;">
+      <div class="user-input">
+        <mat-form-field class="example-full-width" appearance="fill" style="margin-right: 5px;">
+          <mat-label>Title</mat-label>
+          <input matInput placeholder="Search Title" formControlName="title">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="showing" style="margin-right: 5px;">
+          <mat-label>Showing For</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" (dateInput)="onStartDateChange($event.value)"
+              [value]="selectedDate.start">
+            <input matEndDate placeholder="End date" (dateInput)="onEndDateChange($event.value)"
+              [value]="selectedDate.end">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="margin-right: 5px;">
+          <mat-label>Select Order</mat-label>
+          <mat-select formControlName="createdSort">
+            <mat-option *ngFor="let item of order" [value]="item.value">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" style="margin-right: 5px;">
+          <mat-label>Select Question</mat-label>
+          <mat-select  formControlName="numberQuestionsSort">
+            <mat-option *ngFor="let item of question" [value]="item.value">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" style="margin-right: 5px;">
+          <mat-label>Select Question</mat-label>
+          <mat-select formControlName="timeSort">
+            <mat-option *ngFor="let item of time" [value]="item.value">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
         
-          <mat-form-field class="example-full-width" appearance="fill">
-            <mat-label></mat-label>
-            <input matInput placeholder="Serach created date">
-          </mat-form-field>
-  
-        </mat-grid-tile>
-        <mat-grid-tile>2</mat-grid-tile>
-      </mat-grid-list>
+        <div class="action" style="display: inline">
+          <button style="margin-right: 2px;"> Filter</button>
+          <button (click)="reset()"> Reset</button>
+        </div>
+    
+      </div>
     </form>
-  
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!-- Created Date Column -->
-      <ng-container matColumnDef="Created Date">
-        <th mat-header-cell *matHeaderCellDef> Created Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.data}} </td>
-      </ng-container>
-    
-      <!-- Survey Title Column -->
-      <ng-container matColumnDef="Survey Title">
-        <th mat-header-cell *matHeaderCellDef> Survey Title </th>
-        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-      </ng-container>
-    
-      <!-- Number of Questions Column -->
-      <ng-container matColumnDef="Number of Questions">
-        <th mat-header-cell *matHeaderCellDef> Number of Questions </th>
-        <td mat-cell *matCellDef="let element"> {{element.questions.length}} </td>
-      </ng-container>
-    
-      <!-- Time Column -->
-      <ng-container matColumnDef="Time">
-        <th mat-header-cell *matHeaderCellDef> Time </th>
-        <td mat-cell *matCellDef="let element"> {{element.time}} </td>
-      </ng-container>
-    
-      <!-- Action Column -->
-      <ng-container matColumnDef="Action">
-        <th mat-header-cell *matHeaderCellDef> Action </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-button color="primary">Take Servey</button>
-          <button mat-button color="accent">Show Result</button>
-        </td>
-      </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-body"></tr>
-    </table>
   </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!-- Created Date Column -->
+    <ng-container matColumnDef="Created Date">
+      <th mat-header-cell *matHeaderCellDef> Created Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+    </ng-container>
+
+    <!-- Survey Title Column -->
+    <ng-container matColumnDef="Survey Title">
+      <th mat-header-cell *matHeaderCellDef> Survey Title </th>
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <!-- Number of Questions Column -->
+    <ng-container matColumnDef="Number of Questions">
+      <th mat-header-cell *matHeaderCellDef> Number of Questions </th>
+      <td mat-cell *matCellDef="let element"> {{element.questions.length}} </td>
+    </ng-container>
+
+    <!-- Time Column -->
+    <ng-container matColumnDef="Time">
+      <th mat-header-cell *matHeaderCellDef> Time </th>
+      <td mat-cell *matCellDef="let element"> {{element.time}} </td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="Action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button color="primary">Take Servey</button>
+        <button mat-button color="accent">Show Result</button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-body"></tr>
+  </table>
+</div>
